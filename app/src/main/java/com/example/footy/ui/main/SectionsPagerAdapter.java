@@ -1,15 +1,10 @@
 package com.example.footy.ui.main;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import com.example.footy.R;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -17,7 +12,7 @@ import com.example.footy.R;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] TAB_TITLES = new String[]{"Yesterday", "Today", "Tomorrow"};
+    private String[] tabTitles = new String[]{"Yesterday", "Today", "Tomorrow"};
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -41,7 +36,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return TAB_TITLES[position];
+        return tabTitles[position];
     }
 
     @Override

@@ -28,8 +28,6 @@ public class YesterdayFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_today, container, false);
 
-        TextView textView = view.findViewById(R.id.tv_test);
-        textView.setText("Yesterday :)");
 
         return view;
     }
