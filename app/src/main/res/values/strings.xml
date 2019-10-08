@@ -7,4 +7,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="API_KEY">7876f9b8c95cd814f0d8110e8bdd381e298e8d7e62ba008cfa27bdf5a15046a7</string>
     <string name="home_team_logo">Home Team Logo</string>
+    <string name="goals">Goals</string>
+    <string name="Lineup">Lineup</string>
 </resources>

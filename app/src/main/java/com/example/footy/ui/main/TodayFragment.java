@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.footy.Adapters.MatchAdapter;
 import com.example.footy.Constants;
@@ -41,11 +43,8 @@ public class TodayFragment extends Fragment {
     }
 
     private List<Match> matches = new ArrayList<>();
-    private List<TeamModel> homeTeams = new ArrayList<>();
-    private List<TeamModel> awayTeams = new ArrayList<>();
     private RecyclerView recyclerView;
-    private String homeTeamsIds = "";
-    private String awayTeamsIds = "";
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +53,7 @@ public class TodayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_today, container, false);
 
         recyclerView = view.findViewById(R.id.rv_matches);
+        progressBar = view.findViewById(R.id.pb_loading_matches);
 
 
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
@@ -71,12 +71,12 @@ public class TodayFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Match>> call, Response<List<Match>> response) {
                 matches = response.body();
-                for (int i = 0; i<response.body().size(); i++){
-                    MatchAdapter adapter = new MatchAdapter(getActivity(), matches);
 
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    recyclerView.setAdapter(adapter);
-                }
+                MatchAdapter adapter = new MatchAdapter(getActivity(), matches);
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setAdapter(adapter);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

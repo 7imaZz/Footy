@@ -78,7 +78,7 @@ public class Match {
     private String matchLive;
     @SerializedName("goalscorer")
     @Expose
-    private List<Object> goalscorer = null;
+    private List<Goals> goalscorer = null;
     @SerializedName("cards")
     @Expose
     private List<Object> cards = null;
@@ -283,11 +283,11 @@ public class Match {
         this.matchLive = matchLive;
     }
 
-    public List<Object> getGoalscorer() {
+    public List<Goals> getGoalscorer() {
         return goalscorer;
     }
 
-    public void setGoalscorer(List<Object> goalscorer) {
+    public void setGoalscorer(List<Goals> goalscorer) {
         this.goalscorer = goalscorer;
     }
 
