@@ -3,6 +3,11 @@ package com.example.footy.ui.main;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -10,12 +15,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.footy.Adapters.MatchAdapter;
 import com.example.footy.Constants;
@@ -38,10 +37,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class YesterdayFragment extends Fragment {
+public class NextThreeDayFragment extends Fragment {
 
 
-    public YesterdayFragment() {
+    public NextThreeDayFragment() {
         // Required empty public constructor
     }
 
@@ -51,6 +50,7 @@ public class YesterdayFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private TextView noMatchesTextView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +63,8 @@ public class YesterdayFragment extends Fragment {
         progressBar = view.findViewById(R.id.pb_loading_matches);
         noMatchesTextView = view.findViewById(R.id.tv_no_matches);
 
-        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date(System.currentTimeMillis()-24*60*60*1000));
+
+        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date(System.currentTimeMillis()+24*4*60*60*1000));
         
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -102,7 +103,7 @@ public class YesterdayFragment extends Fragment {
                 if (Build.VERSION.SDK_INT >= 26) {
                     ft.setReorderingAllowed(false);
                 }
-                ft.detach(YesterdayFragment.this).attach(YesterdayFragment.this).commit();
+                ft.detach(NextThreeDayFragment.this).attach(NextThreeDayFragment.this).commit();
             }
         });
 

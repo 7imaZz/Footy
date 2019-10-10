@@ -9,4 +9,5 @@
     <string name="home_team_logo">Home Team Logo</string>
     <string name="goals">Goals</string>
     <string name="Lineup">Lineup</string>
+    <string name="no_matches_this_day">No Matches This Day :(</string>
 </resources>

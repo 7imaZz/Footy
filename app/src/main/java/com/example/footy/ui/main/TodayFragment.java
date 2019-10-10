@@ -1,23 +1,26 @@
 package com.example.footy.ui.main;
 
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.footy.Adapters.MatchAdapter;
 import com.example.footy.Constants;
 import com.example.footy.FootballApi;
 import com.example.footy.Models.models.Matches.Match;
-import com.example.footy.Models.models.Teams.TeamModel;
 import com.example.footy.R;
 
 import java.text.SimpleDateFormat;
@@ -42,18 +45,24 @@ public class TodayFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     private List<Match> matches = new ArrayList<>();
+
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private TextView noMatchesTextView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_today, container, false);
+        final View view = inflater.inflate(R.layout.fragment_today, container, false);
 
+        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh);
         recyclerView = view.findViewById(R.id.rv_matches);
         progressBar = view.findViewById(R.id.pb_loading_matches);
+        noMatchesTextView = view.findViewById(R.id.tv_no_matches);
 
 
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
@@ -65,11 +74,11 @@ public class TodayFragment extends Fragment {
 
         FootballApi footballApi = retrofit.create(FootballApi.class);
 
-        Call<List<Match>> call = footballApi.getMatches("2019-10-6", "2019-10-6", Constants.LEAGUES_IDS, getString(R.string.API_KEY));
+        Call<List<Match>> call = footballApi.getMatches(date, date, Constants.LEAGUES_IDS, getString(R.string.API_KEY));
 
         call.enqueue(new Callback<List<Match>>() {
             @Override
-            public void onResponse(Call<List<Match>> call, Response<List<Match>> response) {
+            public void onResponse(@NonNull Call<List<Match>> call, @NonNull Response<List<Match>> response) {
                 matches = response.body();
 
                 MatchAdapter adapter = new MatchAdapter(getActivity(), matches);
@@ -80,7 +89,21 @@ public class TodayFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Match>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Match>> call, @NonNull Throwable t) {
+                noMatchesTextView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                assert getFragmentManager() != null;
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                if (Build.VERSION.SDK_INT >= 26) {
+                    ft.setReorderingAllowed(false);
+                }
+                ft.detach(TodayFragment.this).attach(TodayFragment.this).commit();
             }
         });
 

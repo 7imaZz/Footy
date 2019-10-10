@@ -23,7 +23,6 @@ import com.example.footy.Models.models.Matches.Match;
 import com.example.footy.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +94,6 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchView
         StringBuilder homeGoals = new StringBuilder();
         StringBuilder awayGoals = new StringBuilder();
 
-
         for (int i=0; i<matchGoals.size(); i++){
             if (!matchGoals.get(i).getHomeScorer().equals("")){
                 homeGoals.append(matchGoals.get(i).getTime()).append("': ").append(matchGoals.get(i).getHomeScorer()).append("\n");
@@ -108,18 +106,51 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchView
             flags.add(i, 0);
         }
 
+        String homePlayers = homeLineup.getStartingLineups().toString()
+                .replaceAll("lineup_player","")
+                .replaceAll("lineup_number","")
+                .replaceAll("lineup_position", "")
+                .replaceAll("=", "")
+                .replaceAll("\\{","")
+                .replaceAll("\\}","")
+                .replaceAll("\\[","")
+                .replaceAll("\\]","")
+                .replaceAll("\\d","")
+                .replaceAll(","," ")
+                .replaceAll("    ",",")
+                .replaceAll(", ","\n");
+
+        String awayPlayers = awayLineup.getStartingLineups().toString()
+                .replaceAll("lineup_player","")
+                .replaceAll("lineup_number","")
+                .replaceAll("lineup_position", "")
+                .replaceAll("=", "")
+                .replaceAll("\\{","")
+                .replaceAll("\\}","")
+                .replaceAll("\\[","")
+                .replaceAll("\\]","")
+                .replaceAll("\\d","")
+                .replaceAll(","," ")
+                .replaceAll("    ",",")
+                .replace(", ","\n");
+
         holder.leagueNameTextView.setText(currentMatch.getCountryName()+" - "+currentMatch.getLeagueName());
         holder.homeTeamNameTextView.setText(currentMatch.getMatchHometeamName());
         holder.awayTeamNameTextView.setText(currentMatch.getMatchAwayteamName());
         holder.homeGoalsTextView.setText(homeGoals.toString());
         holder.awayGoalsTextView.setText(awayGoals.toString());
-        holder.homeLineupTextView.setText(homeLineup.getStartingLineups().toString());
-        holder.awayLineupTextView.setText(awayLineup.getStartingLineups().toString());
+        holder.homeLineupTextView.setText(homePlayers);
+        holder.awayLineupTextView.setText(awayPlayers);
 
         if (currentMatch.getMatchStatus().equals("Finished")){
             holder.matchTimeTextView.setText(currentMatch.getMatchHometeamScore()+" - "+currentMatch.getMatchAwayteamScore());
         }else {
-            holder.matchTimeTextView.setText(currentMatch.getMatchTime());
+            if (currentMatch.getMatchLive().equals("0")) {
+                holder.matchTimeTextView.setText(currentMatch.getMatchTime());
+            }else {
+                holder.matchTimeTextView.setTextSize(12);
+                holder.matchTimeTextView.setText("(Live "+currentMatch.getMatchStatus().replaceAll(" ","")+"')\n"+currentMatch.getMatchHometeamScore()+" - "+currentMatch.getMatchAwayteamScore());
+            }
         }
 
         String homeTeamName = currentMatch.getMatchHometeamName().toLowerCase().replaceAll(" ","-");
