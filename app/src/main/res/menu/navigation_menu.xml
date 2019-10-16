@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_more_vert_black_24dp">
+
+        <menu>
+            <item
+                android:id="@+id/menu_pl"
+                android:title="@string/premiere_league"
+                android:icon="@drawable/pl_small"/>
+
+            <item
+                android:id="@+id/menu_sp"
+                android:title="@string/la_liga"
+                android:icon="@drawable/sp_small"/>
+
+            <item
+                android:id="@+id/menu_it"
+                android:title="@string/serie_a"
+                android:icon="@drawable/it_small"/>
+
+            <item
+                android:id="@+id/menu_ger"
+                android:title="@string/bundesliga"
+                android:icon="@drawable/ger_small"/>
+
+            <item
+                android:id="@+id/menu_fr"
+                android:title="@string/ligue_1"
+                android:icon="@drawable/fr_small"/>
+
+            <item
+                android:id="@+id/menu_eg"
+                android:title="@string/egyptian_league"
+                android:icon="@drawable/eg_small"/>
+
+        </menu>
+    </item>
+
+</menu>

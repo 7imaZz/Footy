@@ -2,6 +2,7 @@ package com.example.footy.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,24 @@ import com.example.footy.Models.models.Matches.Home;
 import com.example.footy.Models.models.Matches.Lineup;
 import com.example.footy.Models.models.Matches.Match;
 import com.example.footy.R;
+import com.example.footy.Temp;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchViewHolder>{
@@ -68,6 +83,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchView
     private Context context;
     private List<Match> matches;
     private ArrayList<Integer> flags = new ArrayList<>();
+    private String baseUrl = "https://apiv2.apifootball.com/?action=get_teams&team_id=";
+    private String apiKey = "&APIkey=7876f9b8c95cd814f0d8110e8bdd381e298e8d7e62ba008cfa27bdf5a15046a7";
 
     public MatchAdapter(Context context, List<Match> matches) {
         this.context = context;
@@ -154,9 +171,9 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchView
         }
 
         String homeTeamName = currentMatch.getMatchHometeamName().toLowerCase().replaceAll(" ","-");
-        String homeTeamId = currentMatch.getMatchHometeamId();
+        final String homeTeamId = currentMatch.getMatchHometeamId();
         String awayTeamName = currentMatch.getMatchAwayteamName().toLowerCase().replaceAll(" ","-");
-        String awayTeamId = currentMatch.getMatchAwayteamId();
+        final String awayTeamId = currentMatch.getMatchAwayteamId();
 
 
         Picasso.with(context)
@@ -170,6 +187,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchView
 
                     @Override
                     public void onError() {
+                        holder.homeProgressBar.setVisibility(View.GONE);
+                        new logoAsyncTask().execute(new Temp(baseUrl+homeTeamId+apiKey, holder.homeTeamImg));
 
                     }
                 });
@@ -185,7 +204,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchView
 
                     @Override
                     public void onError() {
-
+                        holder.awayProgressBar.setVisibility(View.GONE);
+                        new logoAsyncTask().execute(new Temp(baseUrl+awayTeamId+apiKey, holder.awayTeamImg));
                     }
                 });
 
@@ -210,4 +230,77 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchView
         return matches.size();
     }
 
+
+    @SuppressLint("StaticFieldLeak")
+    public class logoAsyncTask extends AsyncTask<Temp, Void, Temp>{
+
+
+        @Override
+        protected Temp doInBackground(Temp... jsonUrl) {
+
+            String s;
+            String res = "";
+            try {
+
+                URL url = new URL(jsonUrl[0].getImageUrl());
+
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setConnectTimeout(15000);
+                urlConnection.setReadTimeout(15000);
+                urlConnection.connect();
+
+
+                InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                s = stream2String(inputStream);
+
+                res = extractFromJson(s);
+
+                urlConnection.disconnect();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return new Temp(res, jsonUrl[0].getImageView());
+        }
+
+        @Override
+        protected void onPostExecute(Temp temp) {
+            Picasso.with(context)
+                    .load(temp.getImageUrl())
+                    .placeholder(R.drawable.default_logo)
+                    .into(temp.getImageView());
+        }
+    }
+
+    private String stream2String(InputStream inputStream){
+
+        String line;
+        StringBuilder text = new StringBuilder();
+
+        BufferedReader reader =  new BufferedReader(new InputStreamReader(inputStream));
+
+        try{
+            while((line = reader.readLine()) != null){
+                text.append(line);
+            }
+        }catch (IOException ignored){}
+
+        return text.toString();
+    }
+
+    private String extractFromJson(String json){
+        try {
+
+            JSONArray root = new JSONArray(json);
+            JSONObject first = root.getJSONObject(0);
+            return first.getString("team_badge");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

@@ -10,4 +10,26 @@
     <string name="goals">Goals</string>
     <string name="Lineup">Lineup</string>
     <string name="no_matches_this_day">No Matches This Day :(</string>
+    <string name="my_profile">My Profile</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="premiere_league">Premiere League</string>
+    <string name="la_liga">La Liga</string>
+    <string name="bundesliga">Bundesliga</string>
+    <string name="serie_a">Serie A</string>
+    <string name="legue_1">Legue 1</string>
+    <string name="ligue_1">Ligue 1</string>
+    <string name="egyptian_league">Egyptian League</string>
+    <string name="team_logo">Team Logo</string>
+    <string name="title_activity_leagues">LeaguesActivity</string>
+    <string name="team_label">Team</string>
+    <string name="mp">MP</string>
+    <string name="w">W</string>
+    <string name="d">D</string>
+    <string name="l">L</string>
+    <string name="gf">GF</string>
+    <string name="ga">GA</string>
+    <string name="gd">GD</string>
+    <string name="pts">PTS</string>
+
 </resources>
