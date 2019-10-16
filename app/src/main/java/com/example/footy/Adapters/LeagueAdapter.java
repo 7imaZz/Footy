@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.footy.Models.models.Leagues.League;
+import com.example.footy.Models.models.Teams.Player;
 import com.example.footy.R;
 import com.example.footy.Temp;
 import com.squareup.picasso.Callback;
@@ -66,6 +67,7 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
 
     private Context context;
     private List<League> leagues;
+    private List<Player> players;
     private String baseUrl = "https://apiv2.apifootball.com/?action=get_teams&team_id=";
     private String apiKey = "&APIkey=7876f9b8c95cd814f0d8110e8bdd381e298e8d7e62ba008cfa27bdf5a15046a7";
 
@@ -119,6 +121,13 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
                         new logoAsyncTask().execute(new Temp(baseUrl+currentLeague.getTeamId()+apiKey, holder.teamLogoImageView));
                     }
                 });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 

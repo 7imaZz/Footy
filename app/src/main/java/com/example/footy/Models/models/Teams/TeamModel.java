@@ -18,10 +18,10 @@ public class TeamModel {
     private String teamBadge;
     @SerializedName("players")
     @Expose
-    private List<Object> players = null;
+    private List<Player> players = null;
     @SerializedName("coaches")
     @Expose
-    private List<Object> coaches = null;
+    private List<Coach> coaches = null;
 
     public String getTeamKey() {
         return teamKey;
@@ -47,19 +47,19 @@ public class TeamModel {
         this.teamBadge = teamBadge;
     }
 
-    public List<Object> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Object> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
-    public List<Object> getCoaches() {
+    public List<Coach> getCoaches() {
         return coaches;
     }
 
-    public void setCoaches(List<Object> coaches) {
+    public void setCoaches(List<Coach> coaches) {
         this.coaches = coaches;
     }
 

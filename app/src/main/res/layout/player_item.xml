@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:contentDescription="@string/player_image"
+        android:src="@drawable/player_placeholder"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_player_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:text="Mo Salah"
+        android:gravity="center"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/tv_player_goals"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:text="40 Goals"
+        android:gravity="center"
+        android:textSize="12sp"/>
+
+</LinearLayout>
