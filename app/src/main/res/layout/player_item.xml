@@ -9,16 +9,19 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:contentDescription="@string/player_image"
-        android:src="@drawable/player_placeholder"
+        android:src="@drawable/ic_person_black_24dp"
         android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/tv_player_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:text="Mo Salah"
+        tools:text="Mo"
         android:gravity="center"
-        android:textColor="#000"/>
+        android:lines="1"
+        android:textColor="#000"
+        android:textSize="10sp"
+        tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/tv_player_goals"
@@ -26,6 +29,7 @@
         android:layout_height="match_parent"
         tools:text="40 Goals"
         android:gravity="center"
-        android:textSize="12sp"/>
+        android:textSize="10sp"
+        tools:ignore="SmallSp" />
 
 </LinearLayout>

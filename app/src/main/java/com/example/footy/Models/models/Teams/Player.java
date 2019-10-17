@@ -8,7 +8,7 @@ public class Player {
 
     @SerializedName("player_key")
     @Expose
-    private Integer playerKey;
+    private Long playerKey;
     @SerializedName("player_name")
     @Expose
     private String playerName;
@@ -37,11 +37,11 @@ public class Player {
     @Expose
     private String playerRedCards;
 
-    public Integer getPlayerKey() {
+    public Long getPlayerKey() {
         return playerKey;
     }
 
-    public void setPlayerKey(Integer playerKey) {
+    public void setPlayerKey(Long playerKey) {
         this.playerKey = playerKey;
     }
 

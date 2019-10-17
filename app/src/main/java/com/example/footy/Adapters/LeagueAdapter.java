@@ -1,19 +1,25 @@
 package com.example.footy.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.footy.FootballApi;
 import com.example.footy.Models.models.Leagues.League;
 import com.example.footy.Models.models.Teams.Player;
+import com.example.footy.Models.models.Teams.TeamModel;
 import com.example.footy.R;
 import com.example.footy.Temp;
 import com.squareup.picasso.Callback;
@@ -31,6 +37,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueViewHolder> {
 
@@ -124,8 +135,46 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
+                final GridView gridView = new GridView(context);
+                gridView.setNumColumns(4);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Players")
+                        .setCancelable(true)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setView(gridView)
+                        .show();
+
+                Retrofit retrofit = new  Retrofit.Builder().baseUrl("https://apiv2.apifootball.com/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                FootballApi footballApi = retrofit.create(FootballApi.class);
+
+                Call<List<TeamModel>> call = footballApi.getTeams(currentLeague.getTeamId(), context.getString(R.string.API_KEY));
+
+                call.enqueue(new retrofit2.Callback<List<TeamModel>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<TeamModel>> call, @NonNull Response<List<TeamModel>> response) {
+                        List<TeamModel> teamModels = response.body();
+                        assert teamModels != null;
+                        players = teamModels.get(0).getPlayers();
+
+                        gridView.setAdapter(new PlayerAdapter(context, players));
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<List<TeamModel>> call, @NonNull Throwable t) {
+
+                    }
+                });
             }
         });
 

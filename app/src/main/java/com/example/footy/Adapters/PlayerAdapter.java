@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+
 import com.example.footy.Models.models.Teams.Player;
 import com.example.footy.R;
 
@@ -18,7 +19,7 @@ public class PlayerAdapter extends BaseAdapter{
     private Context context;
     private List<Player> players;
 
-    public PlayerAdapter(Context context, List<Player> players) {
+    PlayerAdapter(Context context, List<Player> players) {
         this.context = context;
         this.players = players;
     }
@@ -44,14 +45,11 @@ public class PlayerAdapter extends BaseAdapter{
 
         view = LayoutInflater.from(context).inflate(R.layout.player_item, viewGroup, false);
 
-        Player currentPlayer = players.get(i);
+        TextView playerName = view.findViewById(R.id.tv_player_name);
+        playerName.setText(players.get(i).getPlayerName());
 
-        TextView playerNameTextView = view.findViewById(R.id.tv_player_name);
-        playerNameTextView.setText(currentPlayer.getPlayerName());
-
-        TextView playerGoalsTextView = view.findViewById(R.id.tv_player_goals);
-        playerGoalsTextView.setText(currentPlayer.getPlayerGoals());
-
+        TextView playerGoals = view.findViewById(R.id.tv_player_goals);
+        playerGoals.setText(players.get(i).getPlayerGoals()+" Goals");
 
         return view;
     }
