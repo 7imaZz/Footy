@@ -267,10 +267,14 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchView
 
         @Override
         protected void onPostExecute(Temp temp) {
-            Picasso.with(context)
-                    .load(temp.getImageUrl())
-                    .placeholder(R.drawable.default_logo)
-                    .into(temp.getImageView());
+            if (temp.getImageUrl().isEmpty()){
+                temp.getImageView().setImageResource(R.drawable.default_logo);
+            }else {
+                Picasso.with(context)
+                        .load(temp.getImageUrl())
+                        .placeholder(R.drawable.default_logo)
+                        .into(temp.getImageView());
+            }
         }
     }
 
