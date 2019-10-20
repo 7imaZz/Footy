@@ -46,12 +46,6 @@ public class LeaguesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(LeaguesActivity.this));
         recyclerView.addItemDecoration(new DividerItemDecoration(LeaguesActivity.this, DividerItemDecoration.VERTICAL));
 
-
-        AdView mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-
         String leagueId = "";
         if (getIntent() != null){
             leagueId = getIntent().getStringExtra("league_id");
