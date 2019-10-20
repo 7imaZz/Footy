@@ -8,20 +8,24 @@ import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.footy.Fav;
 import com.example.footy.FootballApi;
 import com.example.footy.Models.models.Leagues.League;
 import com.example.footy.Models.models.Teams.Player;
 import com.example.footy.Models.models.Teams.TeamModel;
 import com.example.footy.R;
 import com.example.footy.Temp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -81,6 +85,10 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
     private List<Player> players;
     private String baseUrl = "https://apiv2.apifootball.com/?action=get_teams&team_id=";
     private String apiKey = "&APIkey=7876f9b8c95cd814f0d8110e8bdd381e298e8d7e62ba008cfa27bdf5a15046a7";
+    private String userName = "";
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference().child("Fav");
+
 
     public LeagueAdapter(Context context, List<League> leagues) {
         this.context = context;
@@ -143,10 +151,31 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Players")
                         .setCancelable(true)
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Add To Favourite", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                                builder1.setTitle("Enter Your Name");
+                                final EditText editText = new EditText(context);
+                                builder1.setView(editText);
+                                builder1.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        userName = editText.getText().toString();
+                                        String teamLogo = "https://apiv2.apifootball.com//badges/"
+                                                +currentLeague.getTeamId()
+                                                +"_"+currentLeague.getTeamName().toLowerCase().replaceAll(" ","-")+".png";
+                                        Fav fav = new Fav(teamLogo, currentLeague.getTeamName(), userName);
+                                        myRef.push().setValue(fav);
+                                        Toast.makeText(context, "Team Added To Favourite", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).show();
                             }
                         })
                         .setView(gridView)

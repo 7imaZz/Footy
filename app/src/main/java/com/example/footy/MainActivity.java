@@ -3,6 +3,8 @@ package com.example.footy;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         }else if (id == R.id.menu_it){
             Intent intent = new Intent(MainActivity.this, LeaguesActivity.class);
             intent.putExtra("league_id", "262");
+            startActivity(intent);
+        }else if (id == R.id.menu_fav){
+            Intent intent = new Intent(MainActivity.this, FavouriteActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

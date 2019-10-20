@@ -15,6 +15,8 @@ import android.view.MenuItem;
 
 import com.example.footy.Adapters.LeagueAdapter;
 import com.example.footy.Models.models.Leagues.League;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,12 @@ public class LeaguesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(LeaguesActivity.this));
         recyclerView.addItemDecoration(new DividerItemDecoration(LeaguesActivity.this, DividerItemDecoration.VERTICAL));
 
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
         String leagueId = "";
         if (getIntent() != null){
             leagueId = getIntent().getStringExtra("league_id");
@@ -66,6 +74,7 @@ public class LeaguesActivity extends AppCompatActivity {
 
                 LeagueAdapter adapter = new LeagueAdapter(LeaguesActivity.this, leagues);
                 recyclerView.setAdapter(adapter);
+                setTitle(leagues.get(0).getLeagueName());
             }
 
             @Override
@@ -109,6 +118,9 @@ public class LeaguesActivity extends AppCompatActivity {
             intent.putExtra("league_id", "262");
             startActivity(intent);
             finish();
+        }else if (id == R.id.menu_fav){
+            Intent intent = new Intent(LeaguesActivity.this, FavouriteActivity.class);
+            startActivity(intent);
         }else if (id == android.R.id.home){
             finish();
         }

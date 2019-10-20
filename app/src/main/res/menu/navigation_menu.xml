@@ -39,6 +39,10 @@
                 android:title="@string/egyptian_league"
                 android:icon="@drawable/eg_small"/>
 
+            <item
+                android:id="@+id/menu_fav"
+                android:title="@string/favorite"
+                android:icon="@drawable/ic_favorite_black_24dp"/>
         </menu>
     </item>
 

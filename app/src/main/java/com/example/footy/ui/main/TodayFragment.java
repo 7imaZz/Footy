@@ -22,6 +22,8 @@ import com.example.footy.Constants;
 import com.example.footy.FootballApi;
 import com.example.footy.Models.models.Matches.Match;
 import com.example.footy.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,6 +66,9 @@ public class TodayFragment extends Fragment {
         progressBar = view.findViewById(R.id.pb_loading_matches);
         noMatchesTextView = view.findViewById(R.id.tv_no_matches);
 
+        AdView mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
