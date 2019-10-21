@@ -3,8 +3,6 @@ package com.example.footy;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;

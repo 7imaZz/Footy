@@ -159,14 +159,15 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.SubMatchView
         holder.homeLineupTextView.setText(homePlayers);
         holder.awayLineupTextView.setText(awayPlayers);
 
-        if (currentMatch.getMatchStatus().equals("Finished")){
+        if (currentMatch.getMatchStatus().equals(context.getString(R.string.finished))){
             holder.matchTimeTextView.setText(currentMatch.getMatchHometeamScore()+" - "+currentMatch.getMatchAwayteamScore());
         }else {
             if (currentMatch.getMatchLive().equals("0")) {
                 holder.matchTimeTextView.setText(currentMatch.getMatchTime());
             }else {
                 holder.matchTimeTextView.setTextSize(12);
-                holder.matchTimeTextView.setText("(Live "+currentMatch.getMatchStatus().replaceAll(" ","")+"')\n"+currentMatch.getMatchHometeamScore()+" - "+currentMatch.getMatchAwayteamScore());
+                holder.matchTimeTextView.setText("("+context.getString(R.string.live)+" "+currentMatch.getMatchStatus().replaceAll(" ","")+"')\n"+currentMatch.getMatchHometeamScore()+" - "+currentMatch.getMatchAwayteamScore());
+
             }
         }
 

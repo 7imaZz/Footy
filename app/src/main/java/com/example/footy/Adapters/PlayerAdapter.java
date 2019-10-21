@@ -49,7 +49,7 @@ public class PlayerAdapter extends BaseAdapter{
         playerName.setText(players.get(i).getPlayerName());
 
         TextView playerGoals = view.findViewById(R.id.tv_player_goals);
-        playerGoals.setText(players.get(i).getPlayerGoals()+" Goals");
+        playerGoals.setText(players.get(i).getPlayerGoals()+" "+context.getString(R.string.goals));
 
         return view;
     }

@@ -83,17 +83,19 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
     private Context context;
     private List<League> leagues;
     private List<Player> players;
-    private String baseUrl = "https://apiv2.apifootball.com/?action=get_teams&team_id=";
-    private String apiKey = "&APIkey=7876f9b8c95cd814f0d8110e8bdd381e298e8d7e62ba008cfa27bdf5a15046a7";
     private String userName = "";
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference().child("Fav");
+    private String baseUrl = "https://apiv2.apifootball.com/?action=get_teams&team_id=";
+    private String apiKey = "&APIkey=7876f9b8c95cd814f0d8110e8bdd381e298e8d7e62ba008cfa27bdf5a15046a7";
 
 
     public LeagueAdapter(Context context, List<League> leagues) {
         this.context = context;
         this.leagues = leagues;
     }
+
+
 
     @NonNull
     @Override
@@ -125,7 +127,7 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
         holder.ptsTextView.setText(currentLeague.getOverallLeaguePTS());
 
         Picasso.with(context)
-                .load("https://apiv2.apifootball.com//badges/"
+                .load(context.getString(R.string.path)
                         +currentLeague.getTeamId()
                         +"_"+currentLeague.getTeamName().toLowerCase().replaceAll(" ","-")+".png")
                 .placeholder(R.drawable.default_logo)
@@ -149,16 +151,16 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
                 gridView.setNumColumns(4);
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Players")
+                builder.setTitle(context.getString(R.string.player))
                         .setCancelable(true)
-                        .setPositiveButton("Add To Favourite", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(context.getString(R.string.add_to_fav_label), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-                                builder1.setTitle("Enter Your Name");
+                                builder1.setTitle(context.getString(R.string.enter_ur_name_label));
                                 final EditText editText = new EditText(context);
                                 builder1.setView(editText);
-                                builder1.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                builder1.setPositiveButton(context.getString(R.string.save_label), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         userName = editText.getText().toString();
@@ -167,10 +169,10 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
                                                 +"_"+currentLeague.getTeamName().toLowerCase().replaceAll(" ","-")+".png";
                                         Fav fav = new Fav(teamLogo, currentLeague.getTeamName(), userName);
                                         myRef.push().setValue(fav);
-                                        Toast.makeText(context, "Team Added To Favourite", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, context.getText(R.string.team_adde_to_fav), Toast.LENGTH_SHORT).show();
                                     }
 
-                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                }).setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
