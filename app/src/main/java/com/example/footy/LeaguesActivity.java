@@ -15,8 +15,6 @@ import android.view.MenuItem;
 
 import com.example.footy.Adapters.LeagueAdapter;
 import com.example.footy.Models.models.Leagues.League;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +35,8 @@ public class LeaguesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.transition.fadein, R.transition.fadeout);
         setContentView(R.layout.activity_leagues);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
