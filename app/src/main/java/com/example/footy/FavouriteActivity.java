@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toolbar;
 
 import com.example.footy.Adapters.FavouriteAdapter;
 import com.google.android.gms.ads.AdRequest;
@@ -37,8 +38,12 @@ public class FavouriteActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        setTitle(getString(R.string.favorite));
         recyclerView = findViewById(R.id.rv_fav);
+        Toolbar toolbar= findViewById(R.id.tool_bar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.setTitle(getString(R.string.favorite));
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
