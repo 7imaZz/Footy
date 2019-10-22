@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "664492957996",
+    "firebase_url": "https://footy-5ae68.firebaseio.com",
+    "project_id": "footy-5ae68",
+    "storage_bucket": "footy-5ae68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664492957996:android:5c2cd11100eb8d923dcc89",
+        "android_client_info": {
+          "package_name": "com.example.footy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664492957996-p7h5ukqg1e3iibvqfujvghasltuoj4mk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.footy",
+            "certificate_hash": "bf7f49e6e100b46b12d7d2f209c0f7951cca6533"
+          }
+        },
+        {
+          "client_id": "664492957996-ugjmv064u1r15g7i4ddop123njm9f9ji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1N5Do8mU2hdtrTMrmM39QtE9706e8QPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664492957996-ugjmv064u1r15g7i4ddop123njm9f9ji.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
