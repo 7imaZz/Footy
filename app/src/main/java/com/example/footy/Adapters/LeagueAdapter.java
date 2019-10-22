@@ -87,7 +87,7 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference().child("Fav");
     private String baseUrl = "https://apiv2.apifootball.com/?action=get_teams&team_id=";
-    private String apiKey = "&APIkey=7876f9b8c95cd814f0d8110e8bdd381e298e8d7e62ba008cfa27bdf5a15046a7";
+    private String apiKey = "&APIkey=1dc5fcf0b9973b3b6c0cd5f953a6a1ab37bcbb4aab40090bf257a567df785bf5";
 
 
     public LeagueAdapter(Context context, List<League> leagues) {
