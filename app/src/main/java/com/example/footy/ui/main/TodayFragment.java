@@ -1,10 +1,16 @@
 package com.example.footy.ui.main;
 
 
+import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,12 +30,12 @@ import com.example.footy.Models.models.Matches.Match;
 import com.example.footy.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,11 +61,19 @@ public class TodayFragment extends Fragment {
     private TextView noMatchesTextView;
 
 
+    private static final String SHARED_PREFS = "prefs";
+    private static final String HOME_GOALS = "homeGoals";
+    private static final String AWAY_GOALS = "awayGoals";
+    private static final String MID = "mid";
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_today, container, false);
+
+
 
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh);
         recyclerView = view.findViewById(R.id.rv_matches);
@@ -82,6 +96,7 @@ public class TodayFragment extends Fragment {
         Call<List<Match>> call = footballApi.getMatches(date, date, Constants.LEAGUES_IDS, getString(R.string.API_KEY));
 
         call.enqueue(new Callback<List<Match>>() {
+
             @Override
             public void onResponse(@NonNull Call<List<Match>> call, @NonNull Response<List<Match>> response) {
                 matches = response.body();
@@ -91,6 +106,8 @@ public class TodayFragment extends Fragment {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView.setAdapter(adapter);
                 progressBar.setVisibility(View.GONE);
+
+                confirmConfiguration();
             }
 
             @Override
@@ -115,6 +132,32 @@ public class TodayFragment extends Fragment {
 
 
         return view;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void confirmConfiguration(){
+
+        String homeGoals = matches.get(0).getMatchHometeamName();
+        String awayGoals = matches.get(0).getMatchAwayteamName();
+        String mid;
+
+        if (matches.get(0).getMatchStatus().equals(getActivity().getString(R.string.finished))){
+            mid = matches.get(0).getMatchHometeamScore()+" - "+matches.get(0).getMatchAwayteamScore();
+        }else {
+            if (matches.get(0).getMatchLive().equals("0")){
+                mid = matches.get(0).getMatchTime();
+            }else {
+                mid = "("+getActivity().getString(R.string.live)+" "+matches.get(0).getMatchStatus().replaceAll(" ","")+"')\n"+matches.get(0).getMatchHometeamScore()+" - "+matches.get(0).getMatchAwayteamScore();
+            }
+        }
+
+        SharedPreferences prefs = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(HOME_GOALS, homeGoals);
+        editor.putString(AWAY_GOALS, awayGoals);
+        editor.putString(MID, mid);
+        editor.apply();
+
     }
 
 }
